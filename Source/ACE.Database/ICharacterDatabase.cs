@@ -1,6 +1,7 @@
-﻿using ACE.Entity;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+
+using ACE.Entity;
 
 namespace ACE.Database
 {
@@ -25,7 +26,7 @@ namespace ACE.Database
         /// <summary>
         /// loads object properties into the provided db object
         /// </summary>
-        void LoadCharacterProperties(DbObject dbObject);
+        Task LoadCharacterProperties(DbObject dbObject);
 
         /// <summary>
         /// saves all object properties in the provided db object

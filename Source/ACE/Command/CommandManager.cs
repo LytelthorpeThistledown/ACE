@@ -1,8 +1,9 @@
-﻿using ACE.Network;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading;
+
+using ACE.Network;
 
 namespace ACE.Command
 {
@@ -62,6 +63,11 @@ namespace ACE.Command
 
         private static void CommandThread()
         {
+            Console.WriteLine("");
+            Console.WriteLine("ACEmulator command prompt ready.");
+            //Console.WriteLine("Type acehelp and press enter for additional instructions."); TODO: flesh out acehelp to assist new server owners
+            Console.WriteLine("");
+
             for (;;)
             {
                 Console.Write("ACE >> ");
