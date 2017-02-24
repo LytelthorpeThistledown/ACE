@@ -43,16 +43,21 @@ namespace ACE.Network.GameMessages
         Sound                           = 0xF750,
         PlayerTeleport                  = 0xF751,
 
+        PlayEffect                      = 0xF755,
+
         GameEvent                       = 0xF7B0,
         GameAction                      = 0xF7B1,
 
         CharacterEnterWorldRequest      = 0xF7C8,
         FriendsOld                      = 0xF7CD,
         CharacterRestore                = 0xF7D9,
+        TurbineChat                     = 0xF7DE,
         CharacterEnterWorldServerReady  = 0xF7DF,
         ServerMessage                   = 0xF7E0,
         ServerName                      = 0xF7E1,
         Unknown75E5                     = 0xF7E5, // to be named...
         PatchStatus                     = 0xF7EA,
+
     }
 }
+

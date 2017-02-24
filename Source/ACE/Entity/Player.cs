@@ -21,18 +21,18 @@ namespace ACE.Entity
     {
         // all the objects being tracked
         private Dictionary<ObjectGuid, MutableWorldObject> subscribedObjects = new Dictionary<ObjectGuid, MutableWorldObject>();
-        
+
         public Session Session { get; }
 
         public bool InWorld { get; set; }
         public bool IsOnline { get; private set; }  // Different than InWorld which is false when in portal space
-        
+
         public uint PortalIndex { get; set; } = 1u; // amount of times this character has left a portal this session
-        
+
         private Character character;
 
         private Dictionary<SingleCharacterOption, bool> characterOptions; // Might want to move this to Character class
-        
+
         public ReadOnlyCollection<Friend> Friends
         {
             get { return character.Friends; }
@@ -169,12 +169,12 @@ namespace ACE.Entity
             get { return character.TotalLogins; }
             set { character.TotalLogins = value; }
         }
-        
+
         public Player(Session session) : base(ObjectType.Creature, session.CharacterRequested.Guid)
         {
-            Session           = session;
+            Session = session;
             DescriptionFlags |= ObjectDescriptionFlag.Stuck | ObjectDescriptionFlag.Player | ObjectDescriptionFlag.Attackable;
-            Name              = session.CharacterRequested.Name;
+            Name = session.CharacterRequested.Name;
 
             SetPhysicsState(PhysicsState.IgnoreCollision | PhysicsState.Gravity | PhysicsState.Hidden | PhysicsState.EdgeSlide, false);
 
@@ -183,23 +183,31 @@ namespace ACE.Entity
 
             // TODO: In future load these values from DB (if they are supposed to persist)
             characterOptions = new Dictionary<SingleCharacterOption, bool>(System.Enum.GetNames(typeof(SingleCharacterOption)).Length);
-            InitializeCharacterOptions();                                   
+            InitializeCharacterOptions();
         }
 
         private void InitializeCharacterOptions()
-        {            
+        {
             foreach (SingleCharacterOption option in System.Enum.GetValues(typeof(SingleCharacterOption)))
-                characterOptions.Add(option, false);            
+                characterOptions.Add(option, false);
         }
-        
+
         public async void Load()
         {
             character = await DatabaseManager.Character.LoadCharacter(Guid.Low);
-            Position  = character.Position;
+            Position = character.Position;
             IsOnline = true;
 
             SendSelf();
             SendFriendStatusUpdates();
+
+            // Init the client with the chat channel ID's, and then notify the player that they've choined the associated channels.
+            var setTurbineChatChannels = new GameEventSetTurbineChatChannels(Session, 0, 1, 2, 3, 4, 6, 7, 0, 0, 0); // TODO these arehardcoded right now
+            var general = new GameEventDisplayParameterizedStatusMessage(Session, StatusMessageType2.YouHaveEnteredThe_Channel, "General");
+            var trade = new GameEventDisplayParameterizedStatusMessage(Session, StatusMessageType2.YouHaveEnteredThe_Channel, "Trade");
+            var lfg = new GameEventDisplayParameterizedStatusMessage(Session, StatusMessageType2.YouHaveEnteredThe_Channel, "LFG");
+            var roleplay = new GameEventDisplayParameterizedStatusMessage(Session, StatusMessageType2.YouHaveEnteredThe_Channel, "Roleplay");
+            NetworkManager.SendWorldMessages(Session, new GameMessage[] { setTurbineChatChannels, general, trade, lfg, roleplay });
         }
 
         public void GrantXp(ulong amount)
@@ -319,6 +327,13 @@ namespace ACE.Entity
             {
                 ChatPacket.SendServerMessage(Session, $"Your attempt to raise {skill} has failed.", ChatMessageType.Broadcast);
             }
+        }
+
+        //plays particle effect like spell casting or bleed etc..
+        public void PlayParticleEffect(uint effectid)
+        {
+            var effectevent = new GameMessageEffect(this.Guid, effectid);
+            NetworkManager.SendWorldChannelMessages(Session, new GameMessageOnChannel[] { effectevent });
         }
 
         /// <summary>

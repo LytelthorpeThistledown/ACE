@@ -150,6 +150,25 @@ namespace ACE.Network.Managers
             NetworkManager.SendPacket(ConnectionType.World, packet, session);
         }
 
+        
+        public static void SendWorldMessageOnChannel(Session session, GameMessageOnChannel message)
+        {
+            ServerPacketFragment fragment = new ServerPacketFragment(message);
+            var packet = new ServerPacket(0x18, PacketHeaderFlags.EncryptedChecksum);
+            packet.Fragments.Add(fragment);
+            NetworkManager.SendPacket(ConnectionType.World, packet, session);
+        }
+
+
+        public static void SendWorldChannelMessages(Session session, IEnumerable<GameMessageOnChannel> messages)
+        {
+            foreach (var message in messages)
+            {
+                SendWorldMessageOnChannel(session, message);
+            }
+        }
+
+
         public static void SendWorldMessages(Session session, IEnumerable<GameMessage> messages)
         {
 #if MultiFragment
@@ -166,6 +185,14 @@ namespace ACE.Network.Managers
                 SendWorldMessage(session, message);
             }
 #endif
+        }
+
+        public static void SendTurbineChatMessage(Session session, GameMessage message)
+        {
+            ServerPacketFragment fragment = new ServerPacketFragment(4, message);
+            var packet = new ServerPacket(0x18, PacketHeaderFlags.EncryptedChecksum);
+            packet.Fragments.Add(fragment);
+            NetworkManager.SendPacket(ConnectionType.World, packet, session);
         }
     }
 }
