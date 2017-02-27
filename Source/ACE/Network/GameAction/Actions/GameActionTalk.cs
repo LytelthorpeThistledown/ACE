@@ -58,13 +58,13 @@ namespace ACE.Network.GameAction.Actions
             }
             else
             {
-                var creatureMessage = new GameMessageCreatureMessage(message, Session.Player.Name, Session.Player.Guid.Full, ChatMessageType.PublicChat);
+                var creatureMessage = new GameMessageCreatureMessage(message, Session.Player.Name, Session.Player.Guid.Full, ChatMessageType.Speech);
 
                 // TODO: This needs to be changed to a different method. GetByRadius or GetNear, however we decide to do proximity updates...
                 var targets = WorldManager.GetAll();
                 
                 foreach (var target in targets)
-                    NetworkManager.SendWorldMessages(target, new GameMessage[] { creatureMessage });
+                    target.WorldSession.EnqueueSend(new GameMessage[] { creatureMessage });
             }
         }
     }

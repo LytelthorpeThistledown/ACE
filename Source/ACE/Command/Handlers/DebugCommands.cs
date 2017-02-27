@@ -13,6 +13,25 @@ namespace ACE.Command.Handlers
 {
     public static class DebugCommands
     {
+        // echo "text to send back to yourself" [ChatMessageType]
+        [CommandHandler("echo", AccessLevel.Developer, CommandHandlerFlag.RequiresWorld)]
+        public static void HandleDebugEcho(Session session, params string[] parameters)
+        {
+            try
+            {
+                ChatMessageType cmt = ChatMessageType.Broadcast;
+                if (Enum.TryParse(parameters[1], true, out cmt))
+                    if (Enum.IsDefined(typeof(ChatMessageType), cmt))
+                        ChatPacket.SendServerMessage(session, parameters[0], cmt);
+                    else
+                        ChatPacket.SendServerMessage(session, parameters[0], ChatMessageType.Broadcast);
+            }
+            catch (Exception)
+            {
+                ChatPacket.SendServerMessage(session, parameters[0], ChatMessageType.Broadcast);
+            }
+        }
+
         // gps
         [CommandHandler("gps", AccessLevel.Developer, CommandHandlerFlag.RequiresWorld)]
         public static void HandleDebugGPS(Session session, params string[] parameters)
@@ -69,7 +88,7 @@ namespace ACE.Command.Handlers
             {
                 effectid = Convert.ToUInt32(parameters[0]);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //ex...more info.. if needed..
                 ChatPacket.SendServerMessage(session, $"Invalid Effect value", ChatMessageType.Broadcast);

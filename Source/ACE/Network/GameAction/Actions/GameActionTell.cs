@@ -30,15 +30,15 @@ namespace ACE.Network.GameAction.Actions
             if (targetSession == null)
             {
                 var statusMessage = new GameEventDisplayStatusMessage(Session, StatusMessageType1.CharacterNotAvailable);
-                NetworkManager.SendWorldMessages(Session, new GameMessage[] { statusMessage });
+                Session.WorldSession.EnqueueSend(statusMessage);
             }
             else
             {
                 if (Session.Player != targetSession.Player)
                     ChatPacket.SendServerMessage(Session, $"You tell {target}, \"'{message}'\"", ChatMessageType.OutgoingTell);
 
-                var tell = new GameEventTell(targetSession, message, Session.Player.Name, Session.Player.Guid.Full, targetSession.Player.Guid.Full, ChatMessageType.PrivateTell);
-                NetworkManager.SendWorldMessages(targetSession, new GameMessage[] { tell });
+                var tell = new GameEventTell(targetSession, message, Session.Player.Name, Session.Player.Guid.Full, targetSession.Player.Guid.Full, ChatMessageType.Tell);
+                targetSession.WorldSession.EnqueueSend(tell);
             }
         }
     }
