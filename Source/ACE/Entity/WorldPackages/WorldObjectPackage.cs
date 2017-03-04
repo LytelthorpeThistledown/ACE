@@ -13,7 +13,7 @@ using ACE.Network.Managers;
 /// </summary>
 namespace ACE.Entity.WorldPackages
 {
-    public class WolrdObjectPackage
+    public class WorldObjectPackage
     {
         public ObjectType Type { get; }
         public ObjectGuid Guid { get; }
@@ -32,9 +32,9 @@ namespace ACE.Entity.WorldPackages
         //Segments
         public WorldObjectSegmentModelData WorldObjectSegmentModelData { get; }
         public WorldObjectSegmentPhysicsData WorldObjectSegmentPhysicsData { get; }
-        public WolrdObjectSegmentGameData WolrdObjectSegmentGameData { get; }
+        public WorldObjectSegmentGameData WorldObjectSegmentGameData { get; }
 
-        public WolrdObjectPackage(ObjectType type, ObjectGuid guid, WorldObjectSegmentModelData modeldata, WorldObjectSegmentPhysicsData physicsdata, WolrdObjectSegmentGameData gamedata)
+        public WorldObjectPackage(ObjectType type, ObjectGuid guid, WorldObjectSegmentModelData modeldata, WorldObjectSegmentPhysicsData physicsdata, WorldObjectSegmentGameData gamedata)
         {
             Type = type;
             Guid = guid;
@@ -44,8 +44,8 @@ namespace ACE.Entity.WorldPackages
             WorldObjectSegmentModelData = modeldata;
             WorldObjectSegmentPhysicsData = new WorldObjectSegmentPhysicsData();
             WorldObjectSegmentPhysicsData = physicsdata;
-            WolrdObjectSegmentGameData = new WolrdObjectSegmentGameData();
-            WolrdObjectSegmentGameData = gamedata;
+            WorldObjectSegmentGameData = new WorldObjectSegmentGameData();
+            WorldObjectSegmentGameData = gamedata;
         }
 
         //todo: // make this work..
@@ -54,7 +54,7 @@ namespace ACE.Entity.WorldPackages
             writer.WriteGuid(Guid);
             WorldObjectSegmentModelData.Render(writer);
             WorldObjectSegmentPhysicsData.Render(writer);
-            WolrdObjectSegmentGameData.Render(writer);
+            WorldObjectSegmentGameData.Render(writer);
         }
 
     }
