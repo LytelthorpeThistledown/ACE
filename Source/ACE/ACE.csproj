@@ -33,7 +33,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETWORKDEBUG</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
@@ -85,12 +85,12 @@
     <Compile Include="Entity\ImmutableWorldObject.cs" />
     <Compile Include="Entity\Landblock.cs" />
     <Compile Include="Entity\MutableWorldObject.cs" />
-    <Compile Include="Entity\WorldPackages\EquipedItem.cs" />
-    <Compile Include="Entity\WorldPackages\WorldObjectModel.cs" />
-    <Compile Include="Entity\WorldPackages\WorldObjectModelDataPallete.cs" />
-    <Compile Include="Entity\WorldPackages\WorldObjectModelDataTexture.cs" />
-    <Compile Include="Entity\WorldPackages\WorldObjectSegmentModelData.cs" />
-    <Compile Include="Entity\WorldPackages\WorldObjectSegmentPhysicsData.cs" />
+    <Compile Include="Entity\EquippedItem.cs" />
+    <Compile Include="Entity\Model.cs" />
+    <Compile Include="Entity\ModelPallete.cs" />
+    <Compile Include="Entity\ModelTexture.cs" />
+    <Compile Include="Entity\ModelData.cs" />
+    <Compile Include="Entity\PhysicsData.cs" />
     <Compile Include="Managers\AssetManager.cs" />
     <Compile Include="Managers\LandblockManager.cs" />
     <Compile Include="Network\ChatPacket.cs" />
@@ -104,12 +104,15 @@
     <Compile Include="Network\Enum\CoverageMask.cs" />
     <Compile Include="Network\Enum\EquipMask.cs" />
     <Compile Include="Network\Enum\Material.cs" />
+    <Compile Include="Network\Enum\RadarBehavior.cs" />
+    <Compile Include="Network\Enum\RadarColor.cs" />
     <Compile Include="Network\Enum\UiEffects.cs" />
     <Compile Include="Network\Enum\CharacterOptionDataFlag.cs" />
     <Compile Include="Network\Enum\RemoveFriendResult.cs" />
     <Compile Include="Network\Enum\SessionState.cs" />
     <Compile Include="Network\Enum\Sound.cs" />
     <Compile Include="Network\Enum\UpdatePositionFlag.cs" />
+    <Compile Include="Network\Enum\Useable.cs" />
     <Compile Include="Network\Enum\Vital.cs" />
     <Compile Include="Network\Enum\CombatUse.cs" />
     <Compile Include="Network\GameAction\Actions\GameActionAddChannel.cs" />
@@ -190,7 +193,7 @@
     <Compile Include="Network\GameMessages\Messages\GameMessagePlayerTeleport.cs" />
     <Compile Include="Network\GameMessages\Messages\GameMessageCharacterError.cs" />
     <Compile Include="Network\GameMessages\Messages\GameMessageCharacterEnterWorldServerReady.cs" />
-    <Compile Include="Network\GameMessages\Messages\GameMessageTestWorldPackage.cs" />
+    <Compile Include="Network\GameMessages\Messages\GameMessageCreateLifestone.cs" />
     <Compile Include="Network\GameMessages\Messages\GameMessageUpdatePosition.cs" />
     <Compile Include="Network\GameMessages\Messages\GameMessageSystemChat.cs" />
     <Compile Include="Network\GameMessages\Messages\GameMessageTurbineChat.cs" />
@@ -224,8 +227,7 @@
     <Compile Include="ACE.cs" />
     <Compile Include="Network\SessionConnectionData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Entity\WorldPackages\WorldObjectPackage.cs" />
-    <Compile Include="Entity\WorldPackages\WorldObjectSegmentGameData.cs" />
+    <Compile Include="Entity\GameData.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="abilityXp.json">
@@ -275,6 +277,10 @@
     <ProjectReference Include="..\ACE.Database\ACE.Database.csproj">
       <Project>{7cfa48d9-1b44-49a6-afb4-d8bf1f1e545a}</Project>
       <Name>ACE.Database</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ACE.DatLoader\ACE.DatLoader.csproj">
+      <Project>{21d1aa6d-7bec-4ee5-b503-41e6e6f3480a}</Project>
+      <Name>ACE.DatLoader</Name>
     </ProjectReference>
     <ProjectReference Include="..\ACE.Entity\ACE.Entity.csproj">
       <Project>{aa611a84-cdf8-4ab6-8d53-085c897a7422}</Project>
