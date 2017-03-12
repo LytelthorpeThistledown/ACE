@@ -15,23 +15,23 @@ namespace ACE.Entity
 
         public ObjectType Type { get; protected set; }
 
-        public ushort GameDataType { get; protected set; }
+        public ushort GameDataType { get; set; }
 
-        public ushort Icon { get; protected set; }
+        public ushort Icon { get; set; }
 
         public string Name { get; protected set; }
 
         public Position Position
-        { 
+        {
             get { return PhysicsData.Position; }
             protected set { PhysicsData.Position = value; }
         }
 
         public ObjectDescriptionFlag DescriptionFlags { get; protected set; }
-        
+
         public WeenieHeaderFlag WeenieFlags { get; protected set; }
 
-        public WeenieHeaderFlag2 WeenieFlags2 { get; protected set; }
+        public WeenieHeaderFlag2 WeenieFlags2 { get; set; }
 
         public ushort MovementIndex
         {
@@ -69,11 +69,12 @@ namespace ACE.Entity
 
             ModelData.Serialize(writer);
             PhysicsData.Serialize(writer);
-            
+
             writer.Write((uint)WeenieFlags);
             writer.WriteString16L(Name);
-            writer.Write((ushort)GameDataType);
-            writer.Write((ushort)Icon);
+            WritePackedDWord(GameDataType, writer);
+            //WritePackedDWordSubtract(Icon, writer, 0x6000000);
+            WritePackedDWord(Icon, writer);
             writer.Write((uint)Type);
             writer.Write((uint)DescriptionFlags);
 
@@ -180,11 +181,11 @@ namespace ACE.Entity
             if ((WeenieFlags & WeenieHeaderFlag.Material) != 0)
                 writer.Write((uint)GameData.Material);
 
-            /*if ((WeenieFlags2 & WeenieHeaderFlag2.Cooldown) != 0)
-                writer.Write(0u);*/
+            if ((WeenieFlags2 & WeenieHeaderFlag2.Cooldown) != 0)
+                writer.Write(GameData.Cooldown);
 
-            /*if ((WeenieFlags2 & WeenieHeaderFlag2.CooldownDuration) != 0)
-                writer.Write(0.0d);*/
+            if ((WeenieFlags2 & WeenieHeaderFlag2.CooldownDuration) != 0)
+                writer.Write((double)GameData.CooldownDuration);
 
             /*if ((WeenieFlags2 & WeenieHeaderFlag2.PetOwner) != 0)
                 writer.Write(0u);*/
@@ -212,7 +213,7 @@ namespace ACE.Entity
             writer.Write((uint)updatePositionFlags);
 
             Position.Serialize(writer, false);
-            
+
             if ((updatePositionFlags & UpdatePositionFlag.NoQuaternionW) == 0)
                 writer.Write(Position.Facing.W);
             if ((updatePositionFlags & UpdatePositionFlag.NoQuaternionW) == 0)
@@ -226,12 +227,32 @@ namespace ACE.Entity
             {
                 // velocity would go here
             }
-            
+
             var player = Guid.IsPlayer() ? this as Player : null;
             writer.Write((ushort)(player?.TotalLogins ?? 0));
             writer.Write((ushort)++MovementIndex);
             writer.Write((ushort)TeleportIndex);
             writer.Write((ushort)0);
+        }
+
+        public static void WritePackedDWord(uint val, BinaryWriter writer)
+        {
+            if (val < 0x8000)
+                writer.Write((ushort)val);
+            else
+                writer.Write((val << 16) | ((val >> 16) | 0x8000));
+        }
+
+        public static void WritePackedDWordSubtract(uint val, BinaryWriter writer, uint subtract)
+        {
+            if (val < 0x8000)
+                writer.Write((ushort)val);
+            else
+            {
+                var newVal = val - subtract;
+                writer.Write((ushort)0x8000);
+                writer.Write((ushort)newVal);
+            }
         }
     }
 }

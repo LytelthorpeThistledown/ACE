@@ -112,5 +112,28 @@ namespace ACE.Command.Handlers
             session.WorldSession.EnqueueSend(new GameMessageCreateLifestone(session.Player));
         }
 
+        [CommandHandler("createbuckler", AccessLevel.Developer, CommandHandlerFlag.RequiresWorld)]
+        public static void CreateBuckler(Session session, params string[] parameters)
+        {
+            session.WorldSession.EnqueueSend(new GameMessageCreateBuckler(session.Player));
+        }
+
+        [CommandHandler("createcontract", AccessLevel.Developer, CommandHandlerFlag.RequiresWorld)]
+        public static void CreateContract(Session session, params string[] parameters)
+        {
+            session.WorldSession.EnqueueSend(new GameMessageCreateContract(session.Player));
+        }
+
+        [CommandHandler("createtest", AccessLevel.Developer, CommandHandlerFlag.RequiresWorld)]
+        public static void CreateTest(Session session, params string[] parameters)
+        {
+            session.WorldSession.EnqueueSend(new GameMessageCreateTest(session.Player));
+        }
+
+        [CommandHandler("createtachi", AccessLevel.Developer, CommandHandlerFlag.RequiresWorld)]
+        public static void CreateTachi(Session session, params string[] parameters)
+        {
+            session.WorldSession.EnqueueSend(new GameMessageCreateTachi(session.Player));
+        }
     }
 }

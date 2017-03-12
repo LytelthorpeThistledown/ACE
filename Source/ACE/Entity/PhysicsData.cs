@@ -14,6 +14,7 @@ namespace ACE.Entity
         public PhysicsDescriptionFlag PhysicsDescriptionFlag;
         public PhysicsState PhysicsState = 0;
 
+        public uint AnimationFrameId;
         public Position Position;
         public uint MTableResourceId;
         public uint SoundsResourceId;
@@ -23,6 +24,7 @@ namespace ACE.Entity
         //this are all related
         public uint ItemsEquipedCount;
         public uint Parent;
+        public uint Location;
         public EquipMask EquipperPhysicsDescriptionFlag;
         private List<EquippedItem> children = new List<EquippedItem>();
 
@@ -67,11 +69,15 @@ namespace ACE.Entity
 
             //if ((PhysicsDescriptionFlag & PhysicsDescriptionFlag.Movement) != 0)
             //{
+            //    writer.Write(8u);
+            //    writer.Write(67070209294336u);
+            //    writer.Write(0u);
             //}
 
-            //if ((PhysicsDescriptionFlag & PhysicsDescriptionFlag.AnimationFrame) != 0)
-            //{
-            //}
+            if ((PhysicsDescriptionFlag & PhysicsDescriptionFlag.AnimationFrame) != 0)
+            {
+                writer.Write((uint)AnimationFrameId);
+            }
 
             if ((PhysicsDescriptionFlag & PhysicsDescriptionFlag.Position) != 0)
                 Position.Serialize(writer);
@@ -88,9 +94,10 @@ namespace ACE.Entity
             if ((PhysicsDescriptionFlag & PhysicsDescriptionFlag.CSetup) != 0)
                 writer.Write((uint)CSetup);
 
-            if ((PhysicsDescriptionFlag & PhysicsDescriptionFlag.Children) != 0)
+            if ((PhysicsDescriptionFlag & PhysicsDescriptionFlag.Parent) != 0)
             {
-                writer.Write((uint)CSetup);
+                writer.Write((uint)Parent);
+                writer.Write((uint)Location);
             }
 
             if ((PhysicsDescriptionFlag & PhysicsDescriptionFlag.Children) != 0)
