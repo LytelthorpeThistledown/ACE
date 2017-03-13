@@ -17,7 +17,7 @@ namespace ACE.Entity
 
         public ushort GameDataType { get; set; }
 
-        public ushort Icon { get; set; }
+        public uint Icon { get; set; }
 
         public string Name { get; protected set; }
 
@@ -73,8 +73,7 @@ namespace ACE.Entity
             writer.Write((uint)WeenieFlags);
             writer.WriteString16L(Name);
             WritePackedDWord(GameDataType, writer);
-            //WritePackedDWordSubtract(Icon, writer, 0x6000000);
-            WritePackedDWord(Icon, writer);
+            WritePackedDWord(Icon, 0x6000000, writer);
             writer.Write((uint)Type);
             writer.Write((uint)DescriptionFlags);
 
@@ -243,16 +242,18 @@ namespace ACE.Entity
                 writer.Write((val << 16) | ((val >> 16) | 0x8000));
         }
 
-        public static void WritePackedDWordSubtract(uint val, BinaryWriter writer, uint subtract)
+        public static void WritePackedDWord(uint val, uint offset, BinaryWriter writer)
         {
-            if (val < 0x8000)
-                writer.Write((ushort)val);
+            var temp = (val - offset) & 0xFFFF;
+            if ((temp & 0x8) == 0)
+                writer.Write((ushort)temp);
             else
-            {
-                var newVal = val - subtract;
-                writer.Write((ushort)0x8000);
-                writer.Write((ushort)newVal);
-            }
+                writer.Write(ToUInt32((uint)((0x80 << 24) | temp)));
+        }
+
+        public static uint ToUInt32(uint value)
+        {
+            return (uint)(((value >> 16) & 0xFFFF) | ((value & 0xFFFF) << 16));
         }
     }
 }

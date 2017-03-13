@@ -27,9 +27,9 @@ namespace ACE.Network.GameMessages.Messages
             var name = data[dataIndex++]; // USED
             var pluralname = data[dataIndex++];
             var type = int.Parse(data[dataIndex++]); // USED
-            var iconid = ushort.Parse(data[dataIndex++]); // USED
-            var iconoverlayid = int.Parse(data[dataIndex++]);
-            var iconunderlayid = int.Parse(data[dataIndex++]);
+            var iconid = uint.Parse(data[dataIndex++]); // USED
+            var iconoverlayid = uint.Parse(data[dataIndex++]);
+            var iconunderlayid = uint.Parse(data[dataIndex++]);
             var setupid = uint.Parse(data[dataIndex++]); // USED
             var animframeid = uint.Parse(data[dataIndex++]);
             var phstableid = uint.Parse(data[dataIndex++]); // USED
@@ -248,7 +248,7 @@ namespace ACE.Network.GameMessages.Messages
 
             var strings = new List<string>();
 
-            strings.Add("1|Ripley||16|4150|0|0|33554433|0|872415236|536870913|102|0|0|0|0|0|0|0|0|0|0|0|0|0");
+            strings.Add("1|Ripley||16|100667446|0|0|33554433|0|872415236|536870913|102|0|0|0|0|0|0|0|0|0|0|0|0|0");
             strings.Add("136|Pack||512|7094|0|0|33554769|101|872415275|536870932|24|0|0|0|0|0|0|0|3693|0|0|0|0|0");
             strings.Add("5758|Carrot|Carrots|32|6980|0|0|33556220|101|872415275|536870932|0|0|0|0|0|100|0|0|300|0|2|0|0|0");
             strings.Add("7835|Magic Iceball|Magic Iceballs|4194304|7564|0|0|33556223|101|872415275|536870932|0|0|0|0|0|100|0|4194592|150|0|0|0|0|0");

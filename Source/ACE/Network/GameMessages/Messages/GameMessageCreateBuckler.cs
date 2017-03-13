@@ -127,7 +127,7 @@ namespace ACE.Network.GameMessages.Messages
             bWO.PhysicsData.SpawnSequence = 56705;
 
             bWO.GameDataType = 44;
-            bWO.Icon = 5158;
+            bWO.Icon = 100668454u;
             bWO.GameData.Value = 1100;
             bWO.GameData.Usable = Usable.UsableNo;
             bWO.GameData.CombatUse = CombatUse.Shield;
