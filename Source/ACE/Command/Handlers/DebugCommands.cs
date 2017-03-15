@@ -124,10 +124,10 @@ namespace ACE.Command.Handlers
             session.WorldSession.EnqueueSend(new GameMessageCreateContract(session.Player));
         }
 
-        [CommandHandler("createtest", AccessLevel.Developer, CommandHandlerFlag.RequiresWorld)]
+        [CommandHandler("createtest", AccessLevel.Developer, CommandHandlerFlag.RequiresWorld, 1)]
         public static void CreateTest(Session session, params string[] parameters)
         {
-            session.WorldSession.EnqueueSend(new GameMessageCreateTest(session.Player));
+            session.WorldSession.EnqueueSend(new GameMessageCreateTest(session.Player, parameters[0]));
         }
 
         [CommandHandler("createtachi", AccessLevel.Developer, CommandHandlerFlag.RequiresWorld)]
