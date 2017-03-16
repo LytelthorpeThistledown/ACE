@@ -47,7 +47,7 @@ namespace ACE.Entity
                 writer.Write((ushort)PalleteGuid);
             foreach (ModelPallete pallet in modelPalletes)
             {
-                writer.Write((ushort)pallet.Guid);
+                WorldObject.WritePackedDWord(pallet.Guid, 0x4000000, writer);
                 writer.Write((byte)pallet.Offset);
                 writer.Write((byte)pallet.Length);
             }
@@ -55,14 +55,14 @@ namespace ACE.Entity
             foreach (ModelTexture texture in modelTextures)
             {
                 writer.Write((byte)texture.Index);
-                writer.Write((ushort)texture.OldGuid);
-                writer.Write((ushort)texture.NewGuid);
+                WorldObject.WritePackedDWord(texture.OldGuid, 0x5000000, writer);
+                WorldObject.WritePackedDWord(texture.NewGuid, 0x5000000, writer);
             }
 
             foreach (Model model in models)
             {
                 writer.Write((byte)model.Index);
-                writer.Write((ushort)model.Guid);
+                WorldObject.WritePackedDWord(model.Guid, 0x1000000, writer);
             }
 
             writer.Align();

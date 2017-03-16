@@ -127,7 +127,9 @@ namespace ACE.Command.Handlers
         [CommandHandler("createtest", AccessLevel.Developer, CommandHandlerFlag.RequiresWorld, 1)]
         public static void CreateTest(Session session, params string[] parameters)
         {
-            session.WorldSession.EnqueueSend(new GameMessageCreateTest(session.Player, parameters[0]));
+                session.WorldSession.Flush();
+                session.WorldSession.EnqueueSend(new GameMessageCreateTest(session.Player, parameters[0]));
+                session.WorldSession.Flush();
         }
 
         [CommandHandler("createtachi", AccessLevel.Developer, CommandHandlerFlag.RequiresWorld)]
