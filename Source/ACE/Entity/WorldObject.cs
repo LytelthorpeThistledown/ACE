@@ -15,13 +15,21 @@ namespace ACE.Entity
 
         public ObjectType Type { get; protected set; }
 
-        public ushort GameDataType { get; protected set; }
+        /// <summary>
+        /// wcid - stands for weenie class id
+        /// </summary>
+        public ushort WeenieClassid { get; protected set; }
 
         public ushort Icon { get; protected set; }
 
         public string Name { get; protected set; }
 
-        public Position Position
+        /// <summary>
+        /// tick-stamp for the last time this object changed in any way.
+        /// </summary>
+        public double LastUpdatedTicks { get; set; }
+
+        public virtual Position Position
         { 
             get { return PhysicsData.Position; }
             protected set { PhysicsData.Position = value; }
@@ -63,6 +71,12 @@ namespace ACE.Entity
             PhysicsData = new PhysicsData();
         }
 
+        public virtual void SerializeUpdateObject(BinaryWriter writer)
+        {
+            // content of these 2 is the same? TODO: Validate that?
+            SerializeCreateObject(writer);
+        }
+
         public virtual void SerializeCreateObject(BinaryWriter writer)
         {
             writer.WriteGuid(Guid);
@@ -72,7 +86,7 @@ namespace ACE.Entity
             
             writer.Write((uint)WeenieFlags);
             writer.WriteString16L(Name);
-            writer.Write((ushort)GameDataType);
+            writer.Write((ushort)WeenieClassid);
             writer.Write((ushort)Icon);
             writer.Write((uint)Type);
             writer.Write((uint)DescriptionFlags);
@@ -102,7 +116,7 @@ namespace ACE.Entity
                 writer.Write(GameData.UseRadius);
 
             if ((WeenieFlags & WeenieHeaderFlag.TargetType) != 0)
-                writer.Write(GameData.TargetType);
+                writer.Write((uint)GameData.TargetType);
 
             if ((WeenieFlags & WeenieHeaderFlag.UiEffects) != 0)
                 writer.Write((uint)GameData.UiEffects);
@@ -190,19 +204,6 @@ namespace ACE.Entity
                 writer.Write(0u);*/
 
             writer.Align();
-        }
-
-        public void UpdatePosition(Position newPosition)
-        {
-            // TODO: sanity checks
-            Position = newPosition;
-
-            // TODO: this packet needs to be broadcast to the grid system, just send to self for now
-            if (Guid.IsPlayer())
-            {
-                Session session = (this as Player).Session;
-                session.Network.EnqueueSend(new GameMessageUpdatePosition(this));
-            }
         }
 
         public void WriteUpdatePositionPayload(BinaryWriter writer)
