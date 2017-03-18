@@ -115,27 +115,27 @@ namespace ACE.Command.Handlers
         [CommandHandler("createbuckler", AccessLevel.Developer, CommandHandlerFlag.RequiresWorld)]
         public static void CreateBuckler(Session session, params string[] parameters)
         {
-            session.WorldSession.EnqueueSend(new GameMessageCreateBuckler(session.Player));
+            session.Network.EnqueueSend(new GameMessageCreateBuckler(session.Player));
         }
 
         [CommandHandler("createcontract", AccessLevel.Developer, CommandHandlerFlag.RequiresWorld)]
         public static void CreateContract(Session session, params string[] parameters)
         {
-            session.WorldSession.EnqueueSend(new GameMessageCreateContract(session.Player));
+            session.Network.EnqueueSend(new GameMessageCreateContract(session.Player));
         }
 
         [CommandHandler("createtest", AccessLevel.Developer, CommandHandlerFlag.RequiresWorld, 1)]
         public static void CreateTest(Session session, params string[] parameters)
         {
-                session.WorldSession.Flush();
-                session.WorldSession.EnqueueSend(new GameMessageCreateTest(session.Player, parameters[0]));
-                session.WorldSession.Flush();
+            session.Network.Flush();
+            session.Network.EnqueueSend(new GameMessageCreateTest(session.Player, parameters[0]));
+            session.Network.Flush();
         }
 
         [CommandHandler("createtachi", AccessLevel.Developer, CommandHandlerFlag.RequiresWorld)]
         public static void CreateTachi(Session session, params string[] parameters)
         {
-            session.WorldSession.EnqueueSend(new GameMessageCreateTachi(session.Player));
+            session.Network.EnqueueSend(new GameMessageCreateTachi(session.Player));
         }
     }
 }

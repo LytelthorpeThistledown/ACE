@@ -211,6 +211,9 @@ namespace ACE.Network
         {
             Socket socket = SocketManager.GetSocket();
             byte[] payload = packet.GetPayload();
+            Console.WriteLine(DateTime.Now.ToLongTimeString());
+            Console.WriteLine(BitConverter.ToString(payload).Replace("-", ""));
+            Console.WriteLine();
 #if NETWORKDEBUG
             System.Net.IPEndPoint listenerEndpoint = (System.Net.IPEndPoint)socket.LocalEndPoint;
             StringBuilder sb = new StringBuilder();
