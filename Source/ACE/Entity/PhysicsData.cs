@@ -21,7 +21,7 @@ namespace ACE.Entity
         public uint Stable;
         public uint Petable;
 
-        //this are all related
+        //these are all related
         public uint ItemsEquipedCount;
         public uint Parent;
         public uint Location;
@@ -31,9 +31,10 @@ namespace ACE.Entity
         public float ObjScale;
         public float Friction;
         public float Elastcity;
+        public uint AnimationFrame;
+        public Position Acceleration;
         public float Translucency;
         public Position Velocity;
-        public Position Acceleration;
         public Position Omega; // rotation
 
         public uint DefaultScript;
@@ -63,21 +64,15 @@ namespace ACE.Entity
         //todo: return bytes of data for network write ? ?
         public void Serialize(BinaryWriter writer)
         {
-
+    
             writer.Write((uint)PhysicsDescriptionFlag);
+           
+            //autonomous_movement - required always ?
+            //if ((PhysicsDescriptionFlag & PhysicsDescriptionFlag.Movement) != 0)
             writer.Write((uint)PhysicsState);
 
-            //if ((PhysicsDescriptionFlag & PhysicsDescriptionFlag.Movement) != 0)
-            //{
-            //    writer.Write(8u);
-            //    writer.Write(67070209294336u);
-            //    writer.Write(0u);
-            //}
-
             if ((PhysicsDescriptionFlag & PhysicsDescriptionFlag.AnimationFrame) != 0)
-            {
-                writer.Write((uint)AnimationFrameId);
-            }
+                writer.Write((uint)AnimationFrame);
 
             if ((PhysicsDescriptionFlag & PhysicsDescriptionFlag.Position) != 0)
                 Position.Serialize(writer);
@@ -85,9 +80,11 @@ namespace ACE.Entity
             if ((PhysicsDescriptionFlag & PhysicsDescriptionFlag.MTable) != 0)
                 writer.Write((uint)MTableResourceId);
 
+            //stable_id =  BYTE1(v12) & 8 )  =  8 
             if ((PhysicsDescriptionFlag & PhysicsDescriptionFlag.Stable) != 0)
                 writer.Write((uint)Stable);
 
+            //setup id
             if ((PhysicsDescriptionFlag & PhysicsDescriptionFlag.Petable) != 0)
                 writer.Write((uint)Petable);
 
