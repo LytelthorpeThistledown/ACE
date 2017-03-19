@@ -86,7 +86,7 @@ namespace ACE.Entity
 
             writer.Write((uint)WeenieFlags);
             writer.WriteString16L(Name);
-            writer.Write((ushort)WeenieClassid);
+            WritePackedDWord(WeenieClassid, writer);
             WritePackedDWord(Icon, 0x6000000, writer);
             writer.Write((uint)Type);
             writer.Write((uint)DescriptionFlags);

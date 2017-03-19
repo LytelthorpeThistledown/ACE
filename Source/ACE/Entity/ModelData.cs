@@ -21,7 +21,7 @@ namespace ACE.Entity
 
         public void AddPallet(uint paletteId, byte offset, byte length)
         {
-            ModelPallete newpallet = new ModelPallete(palleteID, offset,length);
+            ModelPallete newpallet = new ModelPallete(paletteId, offset,length);
             modelPalletes.Add(newpallet);
         }
 
@@ -49,7 +49,7 @@ namespace ACE.Entity
                 writer.Write((ushort)PalleteGuid);
             foreach (ModelPallete pallet in modelPalletes)
             {
-                WorldObject.WritePackedDWord(pallet.PalletID, 0x4000000, writer);
+                WorldObject.WritePackedDWord(pallet.PaletteID, 0x4000000, writer);
                 writer.Write((byte)pallet.Offset);
                 writer.Write((byte)pallet.Length);
 

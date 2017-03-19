@@ -106,7 +106,7 @@ namespace ACE.Network.GameMessages.Messages
 
             // buckler
             var bWeenie = WeenieHeaderFlag.Value | WeenieHeaderFlag.Usable | WeenieHeaderFlag.CombatUse | WeenieHeaderFlag.Wielder | WeenieHeaderFlag.ValidLocations | WeenieHeaderFlag.Location | WeenieHeaderFlag.Burden | WeenieHeaderFlag.HookType;
-            var bWO = new ImmutableWorldObject(ObjectType.Armor, new ObjectGuid(2872552533), "Buckler", ObjectDescriptionFlag.Inscribable | ObjectDescriptionFlag.Attackable, bWeenie, new Position(0, 0f, 0f, 0f, 0f, 0f, 0f, 0f));
+            var bWO = new ImmutableWorldObject(ObjectType.Armor, new ObjectGuid(2872552533), "Buckler", 44, ObjectDescriptionFlag.Inscribable | ObjectDescriptionFlag.Attackable, bWeenie, new Position(0, 0f, 0f, 0f, 0f, 0f, 0f, 0f));
 
             bWO.ModelData.PalleteGuid = 3055;
             bWO.ModelData.AddPallet(3058, 0, 0);
@@ -126,7 +126,6 @@ namespace ACE.Network.GameMessages.Messages
             bWO.PhysicsData.PortalSequence = 2;
             bWO.PhysicsData.SpawnSequence = 56705;
 
-            bWO.GameDataType = 44;
             bWO.Icon = 100668454u;
             bWO.GameData.Value = 1100;
             bWO.GameData.Usable = Usable.UsableNo;

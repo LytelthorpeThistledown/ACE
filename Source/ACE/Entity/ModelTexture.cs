@@ -19,14 +19,14 @@ namespace ACE.Entity
         /// <summary>
         /// Texture portal.dat entry minus 0x05000000
         /// </summary>
-        public ushort OldTexture { get; }
+        public uint OldTexture { get; }
 
         /// <summary>
         /// Texture portal.dat entry minus 0x05000000
         /// </summary>
-        public ushort NewTexture { get; } 
+        public uint NewTexture { get; } 
 
-        public ModelTexture(byte index, ushort oldtexture, ushort newtexture)
+        public ModelTexture(byte index, uint oldtexture, uint newtexture)
         {
             Index = index;
             OldTexture = oldtexture;

@@ -17,7 +17,7 @@ namespace ACE.Network.GameMessages.Messages
             // Contract for Kill: Rynthid Rifts
             var bWeenie = WeenieHeaderFlag.Value | WeenieHeaderFlag.Usable | WeenieHeaderFlag.TargetType | WeenieHeaderFlag.UiEffects | WeenieHeaderFlag.StackSize | WeenieHeaderFlag.MaxStackSize | WeenieHeaderFlag.Container;
             var bWeenie2 = WeenieHeaderFlag2.Cooldown | WeenieHeaderFlag2.CooldownDuration;
-            var bWO = new ImmutableWorldObject(ObjectType.Gem, new ObjectGuid(3695289433), "Contract for Kill: Rynthid Rifts", (ObjectDescriptionFlag)67108882, bWeenie, new Position(0, 0f, 0f, 0f, 0f, 0f, 0f, 0f));
+            var bWO = new ImmutableWorldObject(ObjectType.Gem, new ObjectGuid(3695289433), "Contract for Kill: Rynthid Rifts", 51875,(ObjectDescriptionFlag)67108882, bWeenie, new Position(0, 0f, 0f, 0f, 0f, 0f, 0f, 0f));
             bWO.WeenieFlags2 = bWeenie2;
 
             var bPhysicsDesc = PhysicsDescriptionFlag.AnimationFrame | PhysicsDescriptionFlag.Stable | PhysicsDescriptionFlag.Petable | PhysicsDescriptionFlag.CSetup;
@@ -37,8 +37,6 @@ namespace ACE.Network.GameMessages.Messages
             bWO.PhysicsData.unknownseq1 = 0;
             bWO.PhysicsData.SpawnSequence = 2;
 
-
-            bWO.GameDataType = 51875;
             bWO.Icon = 100691928u;
             bWO.GameData.Value = 100;
             bWO.GameData.Usable = Usable.UsableContained;
