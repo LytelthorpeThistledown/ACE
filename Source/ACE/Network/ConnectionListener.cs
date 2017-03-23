@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using ACE.Managers;
+using ACE.Common;
 
 namespace ACE.Network
 {
@@ -16,8 +17,11 @@ namespace ACE.Network
 
         private readonly byte[] buffer = new byte[Packet.MaxPacketSize];
 
-        public ConnectionListener(uint port)
+        private readonly IPAddress listeningHost;
+
+        public ConnectionListener(IPAddress host, uint port)
         {
+            listeningHost = host;
             listeningPort = port;
         }
 
@@ -25,7 +29,7 @@ namespace ACE.Network
         {
             try
             {
-                listenerEndpoint = new IPEndPoint(IPAddress.Any, (int)listeningPort);
+                listenerEndpoint = new IPEndPoint(listeningHost, (int)listeningPort);
                 Socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                 Socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, true);
                 Socket.Bind(listenerEndpoint);
@@ -47,7 +51,7 @@ namespace ACE.Network
         {
             try
             {
-                EndPoint clientEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                EndPoint clientEndPoint = new IPEndPoint(listeningHost, 0);
                 Socket.BeginReceiveFrom(buffer, 0, buffer.Length, SocketFlags.None, ref clientEndPoint, OnDataReceieve, Socket);
             }
             catch (Exception exception)
@@ -58,7 +62,7 @@ namespace ACE.Network
 
         private void OnDataReceieve(IAsyncResult result)
         {
-            EndPoint clientEndPoint = new IPEndPoint(IPAddress.Any, 0);
+            EndPoint clientEndPoint = new IPEndPoint(listeningHost, 0);
 
             byte[] data;
             try
